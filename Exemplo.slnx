@@ -1,3 +1,9 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="ReadMe.txt" />
+  </Folder>
   <Project Path="Exemplo.Api/Exemplo.Api.csproj" />
+  <Project Path="Exemplo.Application/Exemplo.Application.csproj" Id="2cbe527a-1e9f-4e36-b795-d9cf04ac5ad3" />
+  <Project Path="Exemplo.Domain/Exemplo.Domain.csproj" Id="72e3ad00-00b1-493e-8103-a7d89126babe" />
+  <Project Path="Exemplo.Infra/Exemplo.Infra.csproj" Id="f1eef3f1-8b0d-4332-866b-78f01e20f461" />
 </Solution>
