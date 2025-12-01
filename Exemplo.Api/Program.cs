@@ -1,4 +1,5 @@
 using Exemplo.Api.Extensions;
+using Exemplo.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("DefaultCors");
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.MiddlewareConfig();
 
 app.MapControllers();
 

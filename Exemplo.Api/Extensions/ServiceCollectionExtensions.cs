@@ -25,6 +25,8 @@ namespace Exemplo.Api.Extensions
             services.AddDbContext<ExemploDbContext>(options =>
                 options.UseSqlServer(connectionString)
                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                       .EnableSensitiveDataLogging()
+                       .EnableDetailedErrors()
                        .ConfigureWarnings(warnings =>
                             warnings.Ignore(RelationalEventId.PendingModelChangesWarning)));
 
