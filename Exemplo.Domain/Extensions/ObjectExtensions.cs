@@ -16,9 +16,10 @@ namespace Exemplo.Infra.Extensions
         }
 
         public static T? FromJson<T>(this string json)
-            => JsonSerializer.Deserialize<T>(json, _options);
+        {
+            return JsonSerializer.Deserialize<T>(json, _options);
+        }
 
-        // Tentativa de deserialização sem quebrar
         public static bool TryFromJson<T>(this string json, out T? result)
         {
             try
