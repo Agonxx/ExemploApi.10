@@ -8,8 +8,10 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services
     .AddDatabase(builder.Configuration)
+    .AddJWTConfig(builder.Configuration)
     .AddApplicationServices()
     .AddApiDocumentation()
+    .AddAuthorization()
     .AddApiCors();
 
 var app = builder.Build();
@@ -20,10 +22,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("DefaultCors");
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MiddlewareConfig();
+app.UseCors("DefaultCors")
+    .UseHttpsRedirection()
+    .UseAuthentication()
+    .UseAuthorization()
+    .MiddlewareConfig();
 
 app.MapControllers();
 

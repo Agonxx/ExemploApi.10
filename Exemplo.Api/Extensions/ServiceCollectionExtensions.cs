@@ -1,10 +1,14 @@
 ﻿using Exemplo.Application.Services;
+using Exemplo.Domain.Config;
 using Exemplo.Domain.Interfaces;
 using Exemplo.Infra.Data;
 using Exemplo.Infra.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using System.Text;
 
 namespace Exemplo.Api.Extensions
 {
@@ -58,6 +62,46 @@ namespace Exemplo.Api.Extensions
                     Version = "v1",
                     Description = "Exemplo de API"
                 });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Insira o token JWT no formato: Bearer {seu token}",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddJWTConfig(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jwtSection = configuration.GetSection("Jwt");
+
+            services.Configure<JwtOptions>(jwtSection);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                var jwtOptions = jwtSection.Get<JwtOptions>();
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidAudience = jwtOptions.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(jwtOptions.Key))
+                };
             });
 
             return services;
