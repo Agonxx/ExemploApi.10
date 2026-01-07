@@ -60,12 +60,15 @@ namespace Exemplo.Api.Extensions
                 {
                     Title = "Exemplo API",
                     Version = "v1",
-                    Description = "Exemplo de API"
+                    Description = "API de exemplo com autenticação JWT e Refresh Tokens",
                 });
 
+                // Define o esquema de segurança Bearer JWT
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "Insira o token JWT no formato: Bearer {seu token}",
+                    Description = @"Autenticação JWT usando o esquema Bearer.
+                        <br/>Entre com 'Bearer' [espaço] e então seu token.
+                        <br/>Exemplo: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,

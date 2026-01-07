@@ -22,11 +22,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("DefaultCors")
+app.UseMiddleware<CorrelationIdMiddleware>()
+    .UseMiddleware<ExceptionMiddleware>()
+    .UseMiddleware<RequestLoggingMiddleware>()
+    .UseCors("DefaultCors")
     .UseHttpsRedirection()
     .UseAuthentication()
-    .UseAuthorization()
-    .MiddlewareConfig();
+    .UseAuthorization();
 
 app.MapControllers();
 

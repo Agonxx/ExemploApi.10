@@ -4,11 +4,13 @@
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
+        private readonly IWebHostEnvironment _environment;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IWebHostEnvironment environment)
         {
             _next = next;
             _logger = logger;
+            _environment = environment;
         }
 
         public async Task Invoke(HttpContext context)
@@ -24,11 +26,24 @@
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";
 
-                var resposta = new
+                object resposta;
+
+                if (_environment.IsDevelopment())
                 {
-                    message = "Ocorreu um erro inesperado.",
-                    error = ex.Message // opcional; remova em produção se quiser
-                };
+                    resposta = new
+                    {
+                        message = "Ocorreu um erro inesperado.",
+                        error = ex.Message,
+                        stackTrace = ex.StackTrace
+                    };
+                }
+                else
+                {
+                    resposta = new
+                    {
+                        message = "Ocorreu um erro inesperado."
+                    };
+                }
 
                 await context.Response.WriteAsJsonAsync(resposta);
             }

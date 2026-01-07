@@ -12,7 +12,7 @@ namespace Exemplo.Application.Services
             _repo = repo;
         }
 
-        public async Task<bool> ListarAsync(Usuario usuarioObj)
+        public async Task<bool> CriarAsync(Usuario usuarioObj)
         {
             await _repo.Create(usuarioObj);
             return true;

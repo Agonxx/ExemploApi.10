@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Exemplo.Infra.Extensions
+namespace Exemplo.Domain.Extensions
 {
     public static class ObjectExtensions
     {

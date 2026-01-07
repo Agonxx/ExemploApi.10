@@ -16,7 +16,7 @@ public class UsuarioController : BaseApiController
     [HttpPost("Create")]
     public async Task<IActionResult> Create([FromBody] Usuario usuario)
     {
-        var result = await _service.ListarAsync(usuario);
+        var result = await _service.CriarAsync(usuario);
         return Ok(result);
     }
 }
